@@ -1,0 +1,18 @@
+1;
+GRANT SELECT 
+ON zoli.termekek
+TO peter;
+
+2;
+zoli.termekek
+
+3;
+GRANT SELECT 
+ON ZOLI.termekek
+TO public;
+
+4;
+SELECT nev
+FROM zoli.termekek;
+
+
