@@ -2,47 +2,48 @@ A táblák létrehozása:
 
 CREATE TABLE Pekseg
 (
-PeksegID NUMBER(8) NOT NULL,
-Nev VARCHAR2(40),
-Nyitvatartas VARCHAR2(30),
-Telefonszam NUMBER(15),
-Weboldal VARCHAR2(40),
+PeksegID INT(8) NOT NULL,
+Nev CHAR(40),
+Nyitvatartas CHAR(30),
+Telefonszam INT(15),
+Weboldal CHAR(40),
 PRIMARY KEY (PeksegID)
 );
 
 CREATE TABLE Termek
 (
-TermekID NUMBER(8) NOT NULL,
-Nev VARCHAR2(30),
-Ar NUMBER(6),
+TermekID INT(8) NOT NULL,
+Nev CHAR(30),
+Ar INT(6),
 PRIMARY KEY (TermekID)
 FOREIGN KEY (PeksegID) REFERENCES Pekseg(PeksegID)
 );
 
 CREATE TABLE Vevo (
-VevoID NUMBER(8) NOT NULL,
-Nev VARCHAR2(40),
-Telefonszam NUMBER(15),
-Varos VARCHAR2(30),
-Utca VARCHAR2(50),
-Hazszam NUMBER(3),
+VevoID INT(8) NOT NULL,
+Nev CHAR(40),
+Telefonszam INT(15),
+Varos CHAR(30),
+Utca CHAR(50),
+Hazszam INT(3),
 PRIMARY KEY (VevoID)
 );
 
 CREATE TABLE Futar
 (
- FutarID NUMBER(8) NOT NULL,
- Nev VARCHAR2(40),
- Telefonszam NUMBER(15),
+ FutarID INT(8) NOT NULL,
+ Nev CHAR(40),
+ Telefonszam INT(15),
+ PeksegID INT(8),
  PRIMARY KEY (FutarID)
  FOREIGN KEY (PeksegID) REFERENCES Pekseg(PeksegID)
 );
 
 CREATE TABLE Rendeles
 (
- RendelesID NUMBER(8) NOT NULL,
- Mennyiseg NUMBER(3),
- Ar NUMBER(6),
+ RendelesID INT(8) NOT NULL,
+ Mennyiseg INT(3),
+ Ar INT(6),
 Fizetendo_ar AS (Mennyiseg * Ar),
  PRIMARY KEY (RendelesID)
  FOREIGN KEY (TermekID) REFERENCES Termek(TermekID)
@@ -51,15 +52,15 @@ Fizetendo_ar AS (Mennyiseg * Ar),
 
 CREATE TABLE Pek
 (
-PekID NUMBER(8) NOT NULL,
-Nev VARCHAR2(40),
-Beosztas VARCHAR2(20),
+PekID INT(8) NOT NULL,
+Nev CHAR(40),
+Beosztas CHAR(20),
 PRIMARY KEY (PekID)
 );
 
 CREATE TABLE Alkalmazott
 (
-AlkalmazottID NUMBER(8)
+AlkalmazottID INT(8)
 PRIMARY KEY (AlkalmazottID)
 FOREIGN KEY (PekID) REFERENCES Pek(PekID)
 FOREIGN KEY (PeksegID) REFERENCES Pekseg(PeksegID)
@@ -79,11 +80,9 @@ INSERT INTO Pekseg (PeksegID,Nev,Nyitvatartas,Telefonszam,Weboldal) VALUES
 (4,'Numann Pékség’,'10:00-19:00',3636517666,'Numann.hu');
 INSERT INTO Pekseg (PeksegID,Nev,Nyitvatartas,Telefonszam,Weboldal) VALUES
 (5,'RádiPékség’,'12:00-19:00',3636416598,'radipekseg.hu');
-
 END;
 
 BEGIN
-
 INSERT INTO Termek (TermekID,Nev,Ar,PeksegID) VALUES
 (1,''Croissant',1500,1);
 INSERT INTO Termek (TermekID,Nev,Ar,PeksegID) VALUES
@@ -114,11 +113,9 @@ INSERT INTO Termek (TermekID,Nev,Ar,PeksegID) VALUES
 (14,’Sajtoskifli',300,5);
 INSERT INTO Termek (TermekID,Nev,Ar,PeksegID) VALUES
 (15,’Kakaóscsiga,310,5);
-
-END;
+END
 
 BEGIN
-
 INSERT INTO Vevo (VevoID,Nev,Telefonszam,Varos,Utca,Hazszam) VALUES
 (1,'Végh Béla,36305145033,3300,'Eger','Egri csillagok',33);
 INSERT INTO Vevo (VevoID,Nev,Telefonszam,Varos,Utca,Hazszam) VALUES
@@ -139,11 +136,9 @@ INSERT INTO Vevo (VevoID,Nev,Telefonszam,Varos,Utca,Hazszam) VALUES
 (9,'Kis Dominik',36307474745,3300,'Eger','Szécheny',55);
 INSERT INTO Vevo (VevoID,Nev,Telefonszam,Varos,Utca,Hazszam) VALUES
 (10, 'Molnár Győző',36309981104,3300,'Eger','Rákóczi',112);
-
 END;
 
 BEGIN
-
 INSERT INTO Futar (FutarID,Nev,Telefonszam, PeksegID) VALUES
 (1,'Rácz Csaba,36304626123,1);
 INSERT INTO Futar (FutarID,Nev,Telefonszam, PeksegID) VALUES
@@ -154,11 +149,9 @@ INSERT INTO Futar (FutarID,Nev,Telefonszam, PeksegID) VALUES
 (4,'Kocsis Péter',36302367474,4);
 INSERT INTO Futar (FutarID,Nev,Telefonszam, PeksegID) VALUES
 (5,'Kovács András Kristóf',36302135656,5);
-
 END;
 
 BEGIN
-
 INSERT INTO Pek (PekID,Nev,Beosztas) VALUES
 (1,'Fehér József,’8:00-17:00’);
 INSERT INTO Pek (PekID,Nev,Beosztas) VALUES
@@ -169,11 +162,9 @@ INSERT INTO Pek (PekID,Nev,Beosztas) VALUES
 (4,’Háborús János',’3:00-22:00’);
 INSERT INTO Pek (PekID,Nev,Beosztas) VALUES
 (5,’Farkas Bence',’12:00-14:00’);
-
 END;
 
 BEGIN
-
 INSERT INTO Rendeles (RendelesID,Mennyiseg,Ar,TermekID,VevoID) VALUES
 (1,4,300,5,1);
 INSERT INTO Rendeles (RendelesID,Mennyiseg,Ar,TermekID,VevoID) VALUES
@@ -194,6 +185,8 @@ INSERT INTO Rendeles (RendelesID,Mennyiseg,Ar,TermekID,VevoID) VALUES
 (9,3,150,6,9);
 INSERT INTO Rendeles (RendelesID,Mennyiseg,Ar,TermekID,VevoID) VALUES
 (10,6,800,11,10);
+END
+
 BEGIN
 INSERT INTO Alkalmazott (AlkalmazottID, PekID, PeksegID) VALUES
 (1,2,3);
@@ -205,8 +198,40 @@ INSERT INTO Alkalmazott (AlkalmazottID, PekID, PeksegID) VALUES
 (4 5,1);
 INSERT INTO Alkalmazott (AlkalmazottID, PekID, PeksegID) VALUES
 (5,1,2);
-
 END;
+
+MÓDOSÍTÁSOK
+
+1.Annak az embernek aki a Szécheny utcában lakik, beállítja a város-t Egernek
+
+UPDATE vevo
+SET Varos="Eger"
+WHERE Utca= "Szécheny"
+
+2.A Nagy Gigi Nevű futár telefonszámát átírja az alábbi telefonszámra
+
+UPDATE futar
+SET Telefonszam="36405145"
+WHERE Nev="Nagy Gigi"
+
+3.A 3.pék beosztását megváltoztatjuk éjszakai beosztásra
+
+UPDATE pek
+SET Beosztas ="17:00-23:00"
+WHERE PekID=3
+
+4.A József nevű pékeknek névnapjuk van, így nem kell bejönniük dolgozni,
+Beosztástalatt felmentettre frissítjük
+
+UPDATE pek
+SET Beosztas ="Felmentett"
+WHERE Nev LIKE ="%József%"
+
+5. Az összes Croissantot elvitték, így helyettesítenünk kell Sonkás táskával.
+
+UPDATE termek
+SET Nev="Sonkás Táska"
+WHERE Nev="Croissant"
 
 LEKÉRDEZÉSEK
 
@@ -214,40 +239,55 @@ LEKÉRDEZÉSEK
 
 SELECT Nev
 FROM Vevo
-WHERE Varos=’EGER’;
+WHERE Varos="Eger";
+
+πnev(σVaros=”Eger”(VEVO))
 
 2. Lekérdezzük a Kristóf nevű vásárlókat.
 
 SELECT Nev
 FROM Vevo
-WHERE Nev LIKE ’%Kristóf%;
+WHERE Nev LIKE "%Kristóf%";
+
+πNev(σnev LIKE „%Kristóf%”(VEVO))
 
 3. Lekérjük Mennyibe került a legkisebb vásárlás.
 
-SELECT MIN (Fizetendo_ar)
+SELECT MIN(Fizetendo_ar) AS "legkisebb vásárlás"
 FROM Rendeles;
 
+πMIN(Fizetendo_ar)(RENDELES)
+
 4. Lekérdezzük milyen pékárukat lehet vásárolni a Numann Pékségben.
+
 SELECT Termek.Nev
 FROM Termek
 JOIN Pekseg ON Pekseg.PeksegID=Termek.PeksegID
-WHERE Pekseg.Nev= ’Numann Pékség’;
+WHERE Pekseg.Nev= "Numann Pékség";
+
+πTermek.nev(σ Pekseg.nev=”Numann Pékség”(TERMEK)⋈ Pekseg.PeksegID=Termek.PeksegID(PEKSEG))
 
 5.Lekérdezzük a legkevesebbet vett süteményt.
 
-SELECT COUNT (rendeles.TermekID) AS „db”, Termek.Nev
+SELECT COUNT(rendeles.TermekID) AS "db", Termek.Nev
 FROM Rendeles
-JOIN Termek ON Termek.TermekID = Rendeles.RendelesAD
+JOIN Termek ON Termek.TermekID = Rendeles.RendelesID
 GROUP BY Termek.Nev
-ORDER BY BY 1 ASC
-FETCH FIRST 1 rows only;
+ORDER BY 1 ASC
+Limit 1;
+
+πcount(rendeles.termekID), Termek Nev(RENDELES)⋈ Termek.TermekID=Rendeles.RendelesID(TERMEK)
 
 6. Lekérdezzük a Rákóczi utcában élő vevők nevét és a rendeléseit.
+
 SELECT Termek.Nev, Vevo.Nev, Rendeles.RendelesID
 FROM Termek
 JOIN Rendeles ON Rendeles.TermekID = Termek.TermekID
-JOIN Rendeles ON Rendeles.VevoID = Vevo.VevoID
-WHERE Vevo.Utca=’Rákóczi’;
+JOIN Vevo ON Rendeles.VevoID = Vevo.VevoID
+WHERE Vevo.Utca="Rákóczi";
+
+πtermek.nev, vevo.nev, rendeles.rendelesID(σ Vevo.Utca=”Rákóczi”(TERMEK)⋈ rendeles.TermekID=Termek.TermekID(RENDELES)
+⋈Rendeles.vevoID=Vevo.VevoID(VEVO))
 
 7.Lekérdezzük azokat a vevőket akik az átlagnál kevesebbet költöttek
 
@@ -257,21 +297,32 @@ Join Rendeles ON Vevo.VevoID=Rendeles.VevoID
 WHERE (Rendeles.Fizetendo_ar <=(SELECT AVG (Rendeles.Fizetendo_ar) FROM
 Rendeles));
 
+πVevo.Nev(σ (Rendeles.Fizetendo_ar <=(SELECT AVG (Rendeles.Fizetendo_ar) FROM Rendeles))(VEVO)⋈
+Vevo.VevoID=Rendeles.VevoID(RENDELES))
+
 8.Ha valaki 1000 FT felett vásárol, kap 30% os kedvezményt. Lekérdezzük, hogy az
 adott rendelés jogosult-e a kedvezményre.
 
 SELECT Vevo.Nev, Rendeles.RendelesID, CASE WHEN Rendeles.Fizetendo_ar>1000
-THEN ’Igen’ ELSE ’Nem’ END AS „Jogosult-e”
+THEN "Igen" ELSE "Nem" END AS "Jogosult-e"
 FROM Rendeles
 JOIN Vevo ON Vevo.VevoID=Rendeles.VevoID;
 
+π Vevo.Nev, Rendeles.RendelesID, CASE WHEN Rendeles.Fizetendo_ar>1000 THEN ”Igen” ELSE ”Nem” END AS ”Jogosult-e”
+(RENDELES)⋈ Vevo.VevoID=Rendeles.VevoID(VEVO)
+
 9.Ha igen mekkora összegre jogosult?
 
-SELECT Vevo.Nev, Rendeles.RendelesID, CASE WHEN Rendeles.Fizetendo_ar>1000
-THEN ’Igen’ ELSE ’Nem’ END AS „Jogosult-e”, CASE WHEN
-Rendeles.Fizetendo_ar>1000 THEN Fizetendo_ar*0.1 ELSE 0 END AS „Kedvezmeny”
+SELECT Vevo.Nev, Rendeles.RendelesID,
+CASE WHEN Rendeles.Fizetendo_ar>1000 THEN "Igen" ELSE "Nem" END AS "Jogosulte",
+CASE WHEN Rendeles.Fizetendo_ar>1000 THEN Fizetendo_ar*0.1 ELSE 0 END AS
+"Kedvezmeny"
 FROM Rendeles
 JOIN Vevo ON Vevo.VevoID=Rendeles.VevoID
+
+π Vevo.Nev, Rendeles.RendelesID, CASE WHEN Rendeles.Fizetendo_ar>1000 THEN ’Igen’ ELSE ’Nem’ END AS „Jogosult-e”, CASE
+WHEN Rendeles.Fizetendo_ar>1000 THEN Fizetendo_ar*0.1 ELSE 0 END AS „Kedvezmeny” (RENDELES)⋈
+Vevo.VevoID=Rendeles.VevoID(VEVO)
 
 10.A Rádi pékség beruházni szeretne új pékséggel bővíteni a franchise láncolatát. Ennek
 az összege 100Millió forint lesz. A kakaós csigából érkező bevételt 100%ban erre fogják
@@ -280,7 +331,9 @@ felhasználni. Hány Kakaós Csigát kell eladni erre beruházni?
 SELECT 100000000/(
 SELECT Ar
 FROM Termek
-JOIN Pekseg ON Pekseg.Pekseg.ID = Termek.PeksegID
-WHERE Nev=’Kakaóscsiga’ AND Pekseg.nev=’Rádi Pékség’
-) AS „Eladandó Kakaós Csiga Darab”
-FROM dual;
+JOIN Pekseg ON Pekseg.PeksegID = Termek.PeksegID
+WHERE termek.Nev="Kakaóscsiga" AND Pekseg.nev="Rádi Pékség"
+) AS "Eladandó Kakaós Csiga Darab"
+
+π10000000/ πar (σ termek.Nev=’Kakaóscsiga’ AND Pekseg.nev=’Rádi Pékség’
+) AS „Eladandó Kakaós Csiga Darab”(TERMEK)⋈ Pekseg.PeksegID=Termek.PeksegID(PEKSEG))
